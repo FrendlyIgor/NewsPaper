@@ -12,6 +12,7 @@
     <h3>{{ value1|default_if_none:"ничего" }} </h3>
     <hr>
     {% if posts %}
+        
         <table class = "table">
             <tr>
                 <td scope="col">
@@ -24,41 +25,22 @@
                     Текст
                 </td>
             </tr>
-        {% for post in posts %}
-            <tr>
-                <td>
-                    {{ post.title|censor }}
-                </td>
-                <td>
-                    {{ post.dataCategory|date:'d m Y' }}
-                </td>
-                <td>
-                    {{ post.text|truncatewords:20|censor }}
-                </td>
-            </tr>
-        {% endfor %}
-        </table>
-        {% if is_paginated %}
-        <!-- Если доступна предыдущая страница, то даём ссылку на неё и самую первую страницу -->
-            {% if page_obj.has_previous %}
-                <a href="?page=1">Первый</a>
-                <a href="?page={{ page_obj.previous_page_number }}"><<<</a>
-            {% endif %}
-        <!-- Показываем только текущую страницу и ближайшие к ней, чтобы список не тянулся и не захламлял страницу -->
-            {% for num in page_obj.paginator.page_range %}
-                {% if page_obj.number == num %}
-                <a>{{ num }}</a>
-                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                <a href="?page={{ num }}">{{ num }}</a>
-                {% endif %}
+            {% for post in posts %}
+                <tr>
+                    <td>
+                        {{ post.title|censor }}
+                    </td>
+                    <td>
+                        {{ post.dataCategory|date:'d m Y' }}
+                    </td>
+                    <td>
+                        {{ post.text|truncatewords:20|censor }}
+                    </td>
+                </tr>
             {% endfor %}
-        <!-- Если есть следующая страница, то даём ссылку на неё и на самую последнюю страницу -->
-            {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}">>>></a>
-                <a href="?page={{ page_obj.paginator.num_pages }}">Последний</a>
-            {% endif %}
-        {% endif %}
-            {% else %}
+        </table>
+        {% include 'news/parts/paginator.html' %}
+        {% else %}
             <h2>Постов нет... (</h2>
     {% endif %}
      

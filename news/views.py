@@ -18,8 +18,7 @@ class PostList(ListView):
 
     def get_context_data(self, **kwargs: Any):
         context = super().get_context_data(**kwargs)
-        context['time_now'] = datetime.utcnow()
-        context['value1'] = None
+        context['filter'] = PostFilter(self.request.GET, queryset=self.get_queryset())
         return context
 
 class PostDetail(DetailView):
@@ -60,7 +59,7 @@ class AuthorDetail(DetailView):
 class postSearch(ListView):
    model = Post  # указываем модель, объекты которой мы будем выводить
    template_name = 'news/search.html'  # указываем имя шаблона, в котором будет лежать HTML, в нём будут все инструкции о том, как именно пользователю должны вывестись наши объекты
-   context_object_name = 'search'  # это имя списка, в котором будут лежать все объекты, его надо указать, чтобы обратиться к самому списку объектов через HTML-шаблон
+   context_object_name = 'posts'  # это имя списка, в котором будут лежать все объекты, его надо указать, чтобы обратиться к самому списку объектов через HTML-шаблон
    ordering = ['-id'] # сортировка по цене в порядке убывания
    paginate_by = 1 # поставим постраничный вывод в один элемент
   

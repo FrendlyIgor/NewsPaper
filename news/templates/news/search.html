@@ -7,11 +7,16 @@
 
 <!-- В контенте на странице мы выводим все товары -->
 {% block content %}
-    <h1>Найдено посты - {{ posts|length }}</h1>
+    <h1>Найдено постов - {{ posts|length }}</h1>
     <h3>{{ time_now|date:'d m Y' }}</h3>
     <h3>{{ value1|default_if_none:"ничего" }} </h3>
     <hr>
     {% if posts %}
+        <form method="GET">
+            {{ filter.form }}
+            <!-- Форму от фильтров за нас сделает Django. А вот кнопку, увы, придётся делать самим -->
+            <input class="btn btn-primary" type="submit" value="Найти">
+        </form>
         <table class = "table">
             <tr>
                 <td scope="col">
@@ -24,7 +29,7 @@
                     Текст
                 </td>
             </tr>
-        {% for post in posts %}
+        {% for post in filter.qs %}
             <tr>
                 <td>
                     {{ post.title|censor }}
