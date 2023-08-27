@@ -1,0 +1,39 @@
+<!--  наследуемся от шаблона default.html -->
+{% extends 'layout/default.html' %}
+
+{% block title %}
+Авторы
+{% endblock title %}
+
+<!-- В контенте на странице мы выводим все товары -->
+{% block content %}
+    <h1>Все авторы</h1>
+    <h3>{{ time_now|date:'d m Y' }}</h3>
+    <hr>
+    {% if authors %}
+        <table class = "table">
+            <tr>
+                <td scope="col">
+                    Имя
+                </td>
+                <td scope="col">
+                    Рейтинг
+                </td>
+                
+            </tr>
+        {% for author in authors %}
+            <tr>
+                <td>
+                    {{ author.authorUser }}
+                </td>
+                <td>
+                    {{ author.ratingAuthor }}
+                </td>
+                
+            </tr>
+        {% endfor %}
+        </table>
+    {% else %}
+        <h2>Авторов нет</h2>
+    {% endif %}
+{% endblock content %}
