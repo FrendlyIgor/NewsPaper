@@ -4,6 +4,8 @@ from .models import Post, Author, User
 from datetime import datetime
 from django.shortcuts import render
 from .filters import PostFilter
+from django.core.paginator import Paginator
+from django.views import View
 
 
 # Create your views here.
@@ -11,7 +13,8 @@ class PostList(ListView):
     model = Post  # указываем модель, объекты которой мы будем выводить
     template_name = 'news/posts.html'  # указываем имя шаблона, в котором будет лежать HTML, в нём будут все инструкции о том, как именно пользователю должны вывестись наши объекты
     context_object_name = 'posts'
-    queryset = Post.objects.order_by('-id')
+    ordering = ['-id']
+    paginate_by = 1
 
     def get_context_data(self, **kwargs: Any):
         context = super().get_context_data(**kwargs)
@@ -21,8 +24,22 @@ class PostList(ListView):
 
 class PostDetail(DetailView):
     model = Post
-    template_name = 'news/post.html'
+    template_name = 'news/posts.html'
     context_object_name = 'post'
+
+class Posts(View):
+
+   def get(self, request):
+       posts = Post.objects.order_by('-id')
+       p = Paginator(posts, 1) # Создаём объект класса пагинатор, передаём ему список наших товаров и их количество для одной страницы
+       posts = p.get_page(request.GET.get('page', 1)) # Берём номер страницы из get-запроса. Если ничего не передали, будем показывать первую страницу
+       # Теперь вместо всех объектов в списке товаров хранится только нужная нам страница с товарами
+
+       data = {
+       'posts': posts,
+       }
+
+       return render(request, 'news/posts.html', data)
 
 class AuthorList(ListView):
     model = Author  # указываем модель, объекты которой мы будем выводить
