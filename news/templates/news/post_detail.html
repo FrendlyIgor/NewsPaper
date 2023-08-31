@@ -1,5 +1,5 @@
 {% extends 'layout/default.html' %}
-
+{% load custom_filters %}
 
 {% block title %}
 Post
@@ -9,15 +9,15 @@ Post
 <div class="card">
   <div class="card-header">
     <h3>
-      {{ post.title }}
+      {{ post.title|censor }}
     </h3>
     <div>
-      Название: <span class="badge bg-info">{{ post.title }}</span>
+      Название: <span class="badge bg-info">{{ post.title|censor }}</span>
       Автор: <span class="badge bg-info">{{ post.author }}</span>
     </div>
   </div>
   <div class="card-body">
-    {{ post.text }}
+    {{ post.text|censor }}
     
   </div>
   <form method="POST">
