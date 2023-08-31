@@ -7,7 +7,7 @@ class PostFilter(FilterSet):
     
     class Meta:
         model = Post
-        fields = ('name', 'price', 'type')
+
         fields = {
             'author' : ['exact'],
             'title' : ['icontains'],

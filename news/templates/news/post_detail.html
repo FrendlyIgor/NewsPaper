@@ -1,0 +1,33 @@
+{% extends 'layout/default.html' %}
+
+
+{% block title %}
+Post
+{% endblock title %}
+
+{% block content %}
+<div class="card">
+  <div class="card-header">
+    <h3>
+      {{ post.title }}
+    </h3>
+    <div>
+      Название: <span class="badge bg-info">{{ post.title }}</span>
+      Автор: <span class="badge bg-info">{{ post.author }}</span>
+    </div>
+  </div>
+  <div class="card-body">
+    {{ post.text }}
+    
+  </div>
+  <form method="POST">
+    {% csrf_token %}
+    
+      <a href="{% url 'news:post_edit' post.id %}">
+        Изменить
+    </a>
+  </form>
+
+</div>   
+
+{% endblock content %}

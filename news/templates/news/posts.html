@@ -28,7 +28,9 @@
             {% for post in posts %}
                 <tr>
                     <td>
-                        {{ post.title|censor }}
+                        <a href="{% url 'news:post_detail' post.id %}">
+                            {{ post.title|censor }}
+                        </a>
                     </td>
                     <td>
                         {{ post.dataCategory|date:'d m Y' }}
@@ -36,12 +38,28 @@
                     <td>
                         {{ post.text|truncatewords:20|censor }}
                     </td>
+                    <td>
+                        <a href="{% url 'news:post_add' %}">
+                            Добавить       
+                        </a>
+                        <a href="{% url 'news:post_delete' post.id %}">
+                            Удалить
+                        </a>
+                    </td>
+                    
                 </tr>
+                
             {% endfor %}
         </table>
         {% include 'news/parts/paginator.html' %}
         {% else %}
             <h2>Постов нет... (</h2>
     {% endif %}
+    <!--<form method="POST">
+         {% csrf_token %}
+        {{ form }}
+     
+        <input class="btn btn-success" type="submit" value="Add">
+    </form> -->
      
 {% endblock content %}
